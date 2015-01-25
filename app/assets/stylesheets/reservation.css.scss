@@ -1,0 +1,126 @@
+$available_color: #B8FFB8;
+$busy_color: #FF8D8D;
+$personal_color: #9BCDFF;
+
+body {
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+
+    /* No support for these yet, use at own risk */
+    -o-user-select: none;
+    user-select: none;
+}
+
+.controlls {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    margin-top: 40px;
+    margin-left: 20px;
+
+}
+
+.datepicker {
+    width: 80px;
+    margin-left: 10px;
+}
+
+.submit-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+#room-name {
+    font-size: 60px;
+    line-height: 60px;
+    width: 100px;
+}
+
+.label-field {
+    margin: 15px 0px;
+}
+
+#comment {
+    width: 220px;
+    margin-bottom: 15px;
+}
+
+.submit-button {
+    margin-top: 15px;
+    font-weight: 500 !important;
+}
+
+.check-mark {
+    display: none !important;
+}
+
+.timeslots {
+    width: 60%;
+    margin: 100px;
+    float: right;
+    display: table-cell;
+}
+
+.slot {
+    height: 80px;
+    border-radius: 5px;
+
+    &.empty {
+        background-color: $available_color;
+    }
+
+    &.busy {
+        background-color: $busy_color;
+    }
+
+    &.personal {
+        background-color: $personal_color;
+    }
+
+}
+
+.small-padding {
+    padding-left: 0px !important;
+    padding-right: 2px !important;
+}
+
+.room-row {
+    padding-bottom: 50px;
+}
+
+.legend {
+    margin-top: 20px;
+}
+
+.square {
+    display: inline-block;
+    height: 15px;
+    width: 20px;
+
+    &.square-available {
+        background-color: $available_color;
+    }
+
+    &.square-busy {
+        background-color: $busy_color;
+    }
+
+    &.square-personal {
+        background-color: $personal_color;
+    }
+}
+
+.invalid-time {
+    font-size: 12px;
+    color: red;
+}
+
+.add-reservation {
+    margin-top: 15px;
+}
+
+.marked {
+    border: solid 1px black;
+}

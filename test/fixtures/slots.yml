@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: MyText
+  start_hour: 1
+  end_hour: 1
+  room: MyText
+  comment: MyText
+  user: 1
+
+two:
+  date: MyText
+  start_hour: 1
+  end_hour: 1
+  room: MyText
+  comment: MyText
+  user: 1

@@ -1,0 +1,29 @@
+body {
+    margin: 0px;
+    background-color: #eee !important;
+}
+
+.login-container {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 200px;
+    width: 350px;
+
+    .login-field {
+        height: 40px;
+        font-size: 20px;
+    }
+
+    .login-remember {
+        margin: 20px 0px;
+        padding: 0px 20px;
+        text-align: left;
+    }
+}
+
+.user-links {
+    text-align: right;
+    padding-top: 10px;
+    padding-right: 10px;
+}
