@@ -12,10 +12,20 @@ $(document).ready(function () {
     });
 
     $('.submit-button').click(function (e) {
+        var err = '';
+
         if (parseInt($('#end_time').val()) <= parseInt($('#start_time').val())) {
+            err += 'The end time must be higher than the start time<br />'
+        }
+
+        if ($('#comment').val().length == 0) {
+            err += 'Please enter a comment<br />';
+        }
+
+        if (err.length > 0) {
             e.preventDefault();
             e.stopPropagation();
-            $('.invalid-time').removeClass('hidden');
+            $('.invalid-time').html(err).removeClass('hidden');
         }
     });
 
@@ -23,12 +33,10 @@ $(document).ready(function () {
         if ($(this).hasClass('marked')) {
             $(this).removeClass('marked');
             $('.delete-button').addClass('disabled');
-            console.log('nobody to delete');
         } else {
             $('.marked').removeClass('marked');
             $('.delete-button').removeClass('disabled');
             $(this).addClass('marked');
-            console.log('we got one sir');
         }
     });
 
