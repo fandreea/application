@@ -3,8 +3,9 @@ Rails.application.routes.draw do
   get 'reservation/show/:date' => 'reservation#show'
   post 'reservation/save' => 'reservation#save'
   get 'reservation/delete/:id/:date' => 'reservation#delete'
-  get 'reservation/addroom/:name' => 'reservation#addroom'
-  get 'reservation/deleteroom/:name' => 'reservation#deleteroom'
+  get 'internal/addroom/:name' => 'reservation#addroom'
+  get 'internal/deleteroom/:name' => 'reservation#deleteroom'
+  get 'internal/management' => 'reservation#management'
 
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.

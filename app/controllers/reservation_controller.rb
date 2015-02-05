@@ -17,6 +17,21 @@ class ReservationController < ApplicationController
       end
   end
 
+   def management
+      @date = params[:date] || Time.now.strftime("%d-%m-%Y")
+
+      @slots_per_room = []
+
+      @rooms = Room.pluck(:name)
+
+      @room_names = []
+
+      @rooms.each do |room|
+          @room_names.push(room)
+          @slots_per_room.push(Slot.where(date: @date, room: room).order(:start_hour))
+      end
+  end
+
   def save
       @other_slots = Slot.where(room: params[:room_name], date: params[:date])
       flag = false
@@ -50,12 +65,16 @@ class ReservationController < ApplicationController
       @deletable = Room.find_by(name: params[:name])
       @deletable.destroy
       flash[:alert] = "Room deleted"
-      redirect_to root_path
+      redirect_to '/internal/management/'
   end
 
   def addroom
-    Room.create(name: params[:name])
-    flash[:notice] = "Room created"
-    redirect_to root_path
+    if Room.exists?(name: params[:name])
+      flash[:alert] = "Room already exists"
+    else
+      Room.create(name: params[:name])
+      flash[:notice] = "Room created"
+    end
+    redirect_to '/internal/management/'
   end
 end

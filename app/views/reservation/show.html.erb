@@ -1,115 +1,89 @@
-<% if current_user.admin? %>
-    <div class="controlls-admin">
-        <div class="delete-room">
-            <p class="submit-title">Delete a room</p>
+<div class="controlls">
+    <label for="datepicker" class="label-field">
+        Select a day
+    </label>
+    <input type="text" id="datepicker" name="datepicker" class="datepicker" value="<%= @date %>" />
+     <% if Date.parse(@date) >= Date.today %>
+        <input type="button" class="btn btn-default btn-lg delete-button disabled" value="Delete reservation"/>
+        <form name="add-reservation" method="POST" action="/reservation/save/" class="add-reservation">
+            <p class="submit-title">Make a reservation</p>
             <label for="room_name" class="label-field">
-                Select the room
+                Room name
             </label>
             <select id="room_name" name="room_name" class="selectpicker">
                 <% @rooms.each do |room| %>
                 <option value="<%= room %>"><%= room %></option>
                 <% end %>
             </select>
-            <input type="button" class="btn btn-default btn-lg delete-room-button" value="Delete room"/>
-        </div>
-        <div class="add-room">
-            <p class="submit-title">Add a room</p>
-            <label for="room_name_add" class="label-field">
-                Room name
+            <label for="start_time" class="label-field">
+                From
             </label>
-            <textarea id="room_name_add" name="room_name_add" class="form-control" rows="2"></textarea>
-            <span class="hidden invalid-name">Please enter the name for the room <br /> </span>
-            <input type="button" class="btn btn-default btn-lg add-room-button" value="Add room"/>
-        </div>
-    </div>
-<% else %>
-    <div class="controlls">
-        <label for="datepicker" class="label-field">
-            Select a day
-        </label>
-        <input type="text" id="datepicker" name="datepicker" class="datepicker" value="<%= @date %>" />
-         <% if Date.parse(@date) >= Date.today %>
-            <input type="button" class="btn btn-default btn-lg delete-button disabled" value="Delete reservation"/>
-            <form name="add-reservation" method="POST" action="/reservation/save/" class="add-reservation">
-                <p class="submit-title">Make a reservation</p>
-                <label for="room_name" class="label-field">
-                    Room name
-                </label>
-                <select id="room_name" name="room_name" class="selectpicker">
-                    <% @rooms.each do |room| %>
-                    <option value="<%= room %>"><%= room %></option>
-                    <% end %>
-                </select>
-                <label for="start_time" class="label-field">
-                    From
-                </label>
-                <select id="start_time" name="start_time" class="selectpicker">
-                    <% for i in 8..19 %>
-                    <option value="<%= i.to_s + '00' %>"><%= i.to_s + ':00' %></option>
-                    <% end %>
-                </select>
-                <label for="end_time" class="label-field">
-                    To
-                </label>
-                <select id="end_time" name="end_time" class="selectpicker">
-                    <% for i in 9..20 %>
-                    <option value="<%= i.to_s + '00' %>"><%= i.to_s + ':00' %></option>
-                    <% end %>
-                </select>
-                <label for="comment" class="label-field">
-                    Topic
-                </label>
-                <textarea id="comment" name="comment" class="form-control" rows="4"></textarea>
-                <input type="hidden" id="date" name="date" value="<%= @date %>" />
-                <input type="hidden" id="user" name="user" value="<%= current_user.id %>" />
-                <span class="hidden invalid-time">The end time must be higher than the start time</span>
-                <input type="submit" value="Make reservation" class="btn btn-default submit-button" />
-            </form>
-        <% end %>
-        <div class="legend">
-            <div class="square square-available"></div>
-            <span class="legend-text">Available</span>
-            <br />
-            <div class="square square-busy"></div>
-            <span class="legend-text">Taken</span>
-            <br />
-            <div class="square square-personal"></div>
-            <span class="legend-text">Your reservation</span>
-        </div>
-    </div>
-    <div class="grid timeslots">
-        <% @slots_per_room.each_with_index do |room_data, index| %>
-        <div class="row room-row">
-            <div><%= @rooms[index] %></div>
-            <% prevStart = 800 %>
-            <% room_data.each do |slot| %>
-                <% if slot.start_hour - prevStart > 0 %>
-                    <% slot_length = (slot.start_hour - prevStart) / 100 %>
-                    <div class="col-md-<%= slot_length %> col-lg-<%= slot_length %> small-padding">
-                        <div class="slot empty"></div>
-                    </div>
+            <select id="start_time" name="start_time" class="selectpicker">
+                <% for i in 8..19 %>
+                <option value="<%= i.to_s + '00' %>"><%= i.to_s + ':00' %></option>
                 <% end %>
-                <% slot_length = (slot.end_hour - slot.start_hour) / 100 %>
-                <div class="col-md-<%= slot_length %> col-lg-<%= slot_length %> small-padding">
-                    <div class="slot <%= (slot.user == current_user.id) ? "personal" : "busy" %> data-toggle="tooltip" title="<%=
-                        "<br />Topic: " + slot.comment + "<br/>From: " + slot.start_hour.to_s[0..-3]+ ':00'+
-                        "<br />To: " + slot.end_hour.to_s[0..-3] + ':00'
-                     %>" data-id="<%= slot.id %>">
-                     <div class="time">
-                         <div class="stime"></div>
-                         <div class="etime"></div>
-                     </div>
-                     </div>
-                </div>
-                <% prevStart = slot.end_hour %>
-            <% end %>
-            <% if prevStart < 2000 %>
-                <% slot_length = (2000 - prevStart) / 100 %>
+            </select>
+            <label for="end_time" class="label-field">
+                To
+            </label>
+            <select id="end_time" name="end_time" class="selectpicker">
+                <% for i in 9..20 %>
+                <option value="<%= i.to_s + '00' %>"><%= i.to_s + ':00' %></option>
+                <% end %>
+            </select>
+            <label for="comment" class="label-field">
+                Topic
+            </label>
+            <textarea id="comment" name="comment" class="form-control" rows="4"></textarea>
+            <input type="hidden" id="date" name="date" value="<%= @date %>" />
+            <input type="hidden" id="user" name="user" value="<%= current_user.id %>" />
+            <span class="hidden invalid-time">The end time must be higher than the start time</span>
+            <input type="submit" value="Make reservation" class="btn btn-default submit-button" />
+        </form>
+    <% end %>
+    <div class="legend">
+        <div class="square square-available"></div>
+        <span class="legend-text">Available</span>
+        <br />
+        <div class="square square-busy"></div>
+        <span class="legend-text">Taken</span>
+        <br />
+        <div class="square square-personal"></div>
+        <span class="legend-text">Your reservation</span>
+    </div>
+</div>
+<div class="grid timeslots">
+    <% @slots_per_room.each_with_index do |room_data, index| %>
+    <div class="row room-row">
+        <div><%= @rooms[index] %></div>
+        <% prevStart = 800 %>
+        <% room_data.each do |slot| %>
+            <% if slot.start_hour - prevStart > 0 %>
+                <% slot_length = (slot.start_hour - prevStart) / 100 %>
                 <div class="col-md-<%= slot_length %> col-lg-<%= slot_length %> small-padding">
                     <div class="slot empty"></div>
                 </div>
             <% end %>
-        </div>
+            <% slot_length = (slot.end_hour - slot.start_hour) / 100 %>
+            <div class="col-md-<%= slot_length %> col-lg-<%= slot_length %> small-padding">
+                <div class="slot <%= (slot.user == current_user.id) ? "personal" : "busy" %> data-toggle="tooltip" title="<%=
+                    "<br />Topic: " + slot.comment + "<br/>From: " + slot.start_hour.to_s[0..-3]+ ':00'+
+                    "<br />To: " + slot.end_hour.to_s[0..-3] + ':00'
+                 %>" data-id="<%= slot.id %>">
+                 <div class="time">
+                     <div class="stime"></div>
+                     <div class="etime"></div>
+                 </div>
+                 </div>
+            </div>
+            <% prevStart = slot.end_hour %>
+        <% end %>
+        <% if prevStart < 2000 %>
+            <% slot_length = (2000 - prevStart) / 100 %>
+            <div class="col-md-<%= slot_length %> col-lg-<%= slot_length %> small-padding">
+                <div class="slot empty"></div>
+            </div>
         <% end %>
     </div>
-<% end %>
+    <% end %>
+</div>
