@@ -45,4 +45,18 @@ $(document).ready(function () {
             window.location.assign('/reservation/delete/' + $('.marked').data('id') + '/' + $('#date').val());
         }
     });
+
+    $('.delete-room-button').click(function () {
+            window.location.assign('/reservation/deleteroom/' + $('#room_name').val());
+    });
+
+     $('.add-room-button').click(function () {
+        if ($('#room_name_add').val().length == 0) {
+            $('.invalid-name').removeClass('hidden');
+        } else {
+            window.location.assign('/reservation/addroom/' + $('#room_name_add').val());
+        }
+    });
+
+
 });

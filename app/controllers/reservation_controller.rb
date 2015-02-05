@@ -7,7 +7,7 @@ class ReservationController < ApplicationController
 
       @slots_per_room = []
 
-      @rooms = ["Meeting Room 1", "Meeting Room 2", "Conf Room 1", "Conf Room 2"]
+      @rooms = Room.pluck(:name)
 
       @room_names = []
 
@@ -23,7 +23,8 @@ class ReservationController < ApplicationController
       @other_slots.each do |slot|
           if ((slot.start_hour < params[:start_time].to_i) && (params[:start_time].to_i < slot.end_hour)) ||
               ((slot.start_hour < params[:end_time].to_i) && (params[:end_time].to_i < slot.end_hour)) ||
-              (slot.start_hour < params[:start_time].to_i && params[:end_time].to_i < slot.end_hour)
+              ((slot.start_hour < params[:start_time].to_i && params[:end_time].to_i < slot.end_hour)) ||
+              ((slot.start_hour == params[:start_time].to_i && params[:end_time].to_i == slot.end_hour))
               flag = true
           end
       end
@@ -43,5 +44,18 @@ class ReservationController < ApplicationController
       @deletable = Slot.find(params[:id])
       @deletable.destroy
       redirect_to '/reservation/show/' + params[:date]
+  end
+
+  def deleteroom
+      @deletable = Room.find_by(name: params[:name])
+      @deletable.destroy
+      flash[:alert] = "Room deleted"
+      redirect_to root_path
+  end
+
+  def addroom
+    Room.create(name: params[:name])
+    flash[:notice] = "Room created"
+    redirect_to root_path
   end
 end
